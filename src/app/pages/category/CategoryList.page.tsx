@@ -50,13 +50,13 @@ const CategoryListPage = () => {
       toastMessage: true,
       onStart: () => {
         setCategoryIsFetch(true)
-        if(!search)
-        handleOpenLoadingOverlay()
+        if (!search)
+          handleOpenLoadingOverlay()
       },
       onEnd: () => {
         setCategoryIsFetch(false)
-        if(!search)
-        handleCloseLoadingOverlay()
+        if (!search)
+          handleCloseLoadingOverlay()
       },
       onSuccess: (resp) => {
         if (resp.status == 200 && resp?.data?.statusCode == 200) {
@@ -137,7 +137,7 @@ const CategoryListPage = () => {
     setInputValue: setTitleValue,
     validate: titleInputValid
   } = productInputs?.useTitleInput({
-    initialvalue:  categoryValue?.title || '',
+    initialvalue: categoryValue?.title || '',
     className: 'col-12'
   })
 
@@ -147,7 +147,7 @@ const CategoryListPage = () => {
     setIsTrue: setIsAvailable
   } = productInputs?.useYesNoInput({
     id: 'isAvailable',
-    initialvalue:  categoryValue?.isAvailable || false,
+    initialvalue: categoryValue?.isAvailable || false,
     title: 'وضعیت نمایش'
   })
 
@@ -176,21 +176,30 @@ const CategoryListPage = () => {
     }
   }
 
+  const {
+    imageRef: CategryImageInputRef,
+    renderer: CategryImageInputRenderer,
+    resetImage
+  } = useImageInput({ initialValue: fileBaseUrl + categoryValue?.image || '' });
   const handleSubmit = async () => {
     const v1 = await titleInputValid();
-    if(v1) {
+    const formData = new FormData();
+    if (categoryValue?.id) {
+      formData.append('id', categoryValue?.id as any)
+    }
+    formData.append('title', titleValue as any)
+    formData.append('image', CategryImageInputRef?.current?.files?.[0])
+
+    if (v1) {
       apiCaller({
         api: categoryValue?.id ? ServiceAgent.category.request_editCategory : ServiceAgent.category.request_createCategory,
-        apiArguments: {
-          id: categoryValue?.id || '',
-          title: titleValue
-        },
+        apiArguments: formData,
         onSuccess: (resp) => {
           if (resp?.status == 200 && resp?.data?.statusCode == 200) {
             setShowAddCategory(false)
             setIsAvailable(false)
             setTitleValue('')
-            productImageReset()
+            resetImage()
             getAllListCatableData()
           }
         },
@@ -202,12 +211,12 @@ const CategoryListPage = () => {
   }
 
   useEffect(() => {
-   if(!showAddCategory) {
-    setCategoryValue(undefined)
-    setIsAvailable(false)
-    setTitleValue('')
-    productImageReset()
-   }
+    if (!showAddCategory) {
+      setCategoryValue(undefined)
+      setIsAvailable(false)
+      setTitleValue('')
+      resetImage()
+    }
   }, [showAddCategory])
 
   return (
@@ -266,7 +275,7 @@ const CategoryListPage = () => {
                     <tr key={item.id} className='p-0 w-100 '>
                       <td style={{ verticalAlign: 'middle' }} className='  text-truncate '>
                         <div className='d-flex align-items-center px-3'>
-                          {/* <img className='rounded' style={{ width: '60px', height: '60px' }} src={fileBaseUrl + item?.image} /> */}
+                          <img className='rounded' style={{ width: '60px', height: '60px' }} src={fileBaseUrl + item?.image} />
                           <span className=''>{item?.title}</span>
                         </div>
                       </td>
@@ -390,6 +399,12 @@ const CategoryListPage = () => {
             <div className='form-edit-Cartable'>
               <form>
                 {titleInput()}
+                {CategryImageInputRenderer({
+                  id: 'CategoryImage',
+                  label: 'عکس دسته بندی',
+                  className: 'col-md-6  mt-2   pe-md-2 pe-0',
+                  required: false,
+                })}
                 {/* {isAvailableRender({ className: 'col-12 mt-2 mb-4' })} */}
                 {/* {productImageInputRenderer({
                   id: 'productImage',
