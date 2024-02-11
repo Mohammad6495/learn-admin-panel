@@ -80,7 +80,7 @@ export function Login() {
     >
       {/* begin::Heading */}
       <div className='text-center mb-10'>
-        <h1 className='text-dark mb-3'>ورود به پنل پردیسان</h1>
+        <h1 className='text-dark mb-3'>ورود به پنل مدیریت</h1>
       </div>
       {/* begin::Heading */}
 
