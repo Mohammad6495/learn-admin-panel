@@ -8,7 +8,7 @@ import { ServiceAgent } from '../../services/serviceAgent'
 import { useLoadingContext } from '../../contexts/loading/loading'
 import { convertFullDateAndTime } from '../../utils/dateUtils'
 import { columns } from './dataTableService/_columns'
-import { AiOutlineEdit } from 'react-icons/ai'
+import { AiOutlineEdit, AiOutlineInfo } from 'react-icons/ai'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { LuArchiveRestore } from 'react-icons/lu'
@@ -20,7 +20,7 @@ import CustomerForBuyFilter from '../../components/filter-customer/CustomerForBu
 import { BsPlusSquare } from 'react-icons/bs'
 import * as productInputs from '../../components/productInputs'
 import useImageInput from '../../components/input/imageInput'
-
+import moment from 'jalali-moment'
 const RequestCourseListPage = () => {
   const navigate = useNavigate()
 
@@ -260,11 +260,10 @@ const RequestCourseListPage = () => {
                         {item?.course?.title}
                       </td>
                       <td style={{ verticalAlign: 'middle' }} className='  text-truncate '>
-                        {item?.createdAt}
-                      </td>
+                        {moment(item?.createdAt).format('jYYYY/jMM/jDD')}                      </td>
                       <td style={{ verticalAlign: 'middle' }} className=''>
                         <div className='d-flex justify-content-center flex-shrink-0'>
-                          {/* <div
+                          <div
                             onClick={() => {
                               setRequestCourseValue(item)
                               setShowAddRequestCourse(!showAddRequestCourse)
@@ -273,11 +272,11 @@ const RequestCourseListPage = () => {
                               width: '40px',
                               height: '34px',
                             }}
-                            title='ویرایش'
-                            className='btn btn-icon btn-bg-success btn-active-color-primary me-2'
+                            title='جزییات'
+                            className='btn btn-icon btn-bg-primary btn-active-color-primary me-2'
                           >
-                            <AiOutlineEdit color='#fff' fontSize={22} />
-                          </div> */}
+                            <AiOutlineInfo color='#fff' fontSize={26} />
+                          </div>
                           <div
                             onClick={() => {
                               setRequestId(item?.id as string);
@@ -373,25 +372,61 @@ const RequestCourseListPage = () => {
           dialogClassName='p-3'
         >
           <Modal.Header closeButton>
-            <h3>افزودن درخواست ها</h3>
+            <h3>جزئیات درخواست</h3>
           </Modal.Header>
           <Modal.Body>
             <div className='form-edit-Cartable'>
-              <form>
-                {titleInput()}
-
-                {/* {isAvailableRender({ className: 'col-12 mt-2 mb-4' })} */}
-                {/* {productImageInputRenderer({
-                  id: 'productImage',
-                  label: 'عکس درخواست ها',
-                  className: 'col-md-6 mt-2 pe-md-2 pe-0',
-                  required: false,
-                })} */}
-              </form>
+              <div className='d-flex flex-wrap my-2'>
+                <div className='col-4'>
+                  <div className='d-flex align-items-center'>
+                    <span>شماره تماس : </span> <span>{RequestCourseValue?.phoneNumber}</span>
+                  </div>
+                </div>
+                <div className='col-4'>
+                  <div className='d-flex align-items-center'>
+                    <span>تاریخ ثبت : </span> <span>{moment(RequestCourseValue?.createdAt).format('jYYYY/jMM/jDD')}</span>
+                  </div>
+                </div>
+                <div className='col-4'>
+                  <div className='d-flex align-items-center'>
+                    <span>حوزه علاقه مندی : </span> <span>{RequestCourseValue?.favoriotArea}</span>
+                  </div>
+                </div>
+                <div className='col-12 mt-4'>
+                  <h6>جزئیات دوره</h6>
+                  <div className='d-flex flex-wrap'>
+                    <div className='col-4'>
+                      <div className='d-flex align-items-center'>
+                        <span>نام دوره : </span> <span>{RequestCourseValue?.course?.title}</span>
+                      </div>
+                    </div>
+                    <div className='col-4'>
+                      <div className='d-flex align-items-center'>
+                        <span>قیمت دوره : </span> <span>{formatPrice(RequestCourseValue?.course?.price)} تومان</span>
+                      </div>
+                    </div>
+                    <div className='col-4'>
+                      <div className='d-flex align-items-center'>
+                        <span>نام مدرس : </span> <span>{RequestCourseValue?.course?.teacher?.name}</span>
+                      </div>
+                    </div>
+                    <div className='col-4 mt-2'>
+                      <div className='d-flex align-items-center'>
+                        <span>دسته بندی دوره : </span> <span>{RequestCourseValue?.course?.category?.title}</span>
+                      </div>
+                    </div>
+                    <div className='col-4 mt-2'>
+                      <div className='d-flex align-items-center'>
+                        <span>آموزشگاه : </span> <span>{RequestCourseValue?.course?.eductional?.name}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div className='d-flex w-100 justify-content-end'>
-                <button onClick={handleSubmit} className='btn btn-primary mt-2 me-3'>
+                {/* <button onClick={handleSubmit} className='btn btn-primary mt-2 me-3'>
                   ثبت
-                </button>
+                </button> */}
                 <button
                   className='btn btn-danger mt-2'
                   type='button'
@@ -399,7 +434,7 @@ const RequestCourseListPage = () => {
                     setShowAddRequestCourse(false)
                   }}
                 >
-                  خیر
+                  بستن
                 </button>
               </div>
             </div>

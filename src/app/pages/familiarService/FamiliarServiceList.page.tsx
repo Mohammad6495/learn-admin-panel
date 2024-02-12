@@ -20,7 +20,7 @@ import CustomerForBuyFilter from '../../components/filter-customer/CustomerForBu
 import { BsPlusSquare } from 'react-icons/bs'
 import * as productInputs from '../../components/productInputs'
 import useImageInput from '../../components/input/imageInput'
-
+import moment from 'jalali-moment'
 const FamiliarServiceListPage = () => {
   const navigate = useNavigate()
 
@@ -257,7 +257,7 @@ const FamiliarServiceListPage = () => {
                         {item?.favoriotArea}
                       </td>
                       <td style={{ verticalAlign: 'middle' }} className='  text-truncate '>
-                        {item?.createdAt}
+                        {moment(item?.createdAt).format('jYYYY/jMM/jDD')}
                       </td>
                       <td style={{ verticalAlign: 'middle' }} className=''>
                         <div className='d-flex justify-content-center flex-shrink-0'>
@@ -270,7 +270,7 @@ const FamiliarServiceListPage = () => {
                               width: '40px',
                               height: '34px',
                             }}
-                            title='ویرایش'
+                            title='جزییات'
                             className='btn btn-icon btn-bg-success btn-active-color-primary me-2'
                           >
                             <AiOutlineEdit color='#fff' fontSize={22} />
