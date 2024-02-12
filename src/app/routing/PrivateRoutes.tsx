@@ -21,6 +21,8 @@ const UsersListPage = lazy(() => import('../pages/users/UsersList.page'))
 ///Order
 const TeacherListPage = lazy(() => import('../pages/teacher/TeacherList.page'))
 const EductionalListPage = lazy(() => import('../pages/eductional/EductionalList.page'))
+const FamiliarServiceListPage = lazy(() => import('../pages/familiarService/FamiliarServiceList.page'))
+const RequestCourseListPage = lazy(() => import('../pages/requestCourse/RequestCourseList.page'))
 
 
 const PrivateRoutes = () => {
@@ -70,6 +72,22 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <ProductListPage />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path='familiar-service-list'
+          element={
+            <SuspensedView>
+              <FamiliarServiceListPage />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path='request-course-list'
+          element={
+            <SuspensedView>
+              <RequestCourseListPage />
             </SuspensedView>
           }
         />

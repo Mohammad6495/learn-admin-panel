@@ -2,6 +2,7 @@
 // export const fileBaseUrl = 'https://pardisangroup.com'
 export const baseUrl = 'http://91.206.177.124:5000'
 export const fileBaseUrl = 'http://91.206.177.124:5000/'
+// export const baseUrl = 'http://localhost:5000'
 export const chathubUrl = 'https://api.pardisan-mc.com/chathub'
 export const tokenKey = 'admin-token-learn'
 
@@ -20,6 +21,18 @@ export const APIS_ENDPOINTS = {
     addTeacher: '/teacher/create',
     editTeacher: '/teacher/edit',
     removeTeacher: '/teacher/remove',
+  },
+  familiarservice:{
+    getAllFamiliarservice: '/familiarservice/getAll',
+    addFamiliarservice: '/familiarservice/create',
+    editFamiliarservice: '/familiarservice/edit',
+    removeFamiliarservice: '/familiarservice/remove',
+  },
+  requestCourse:{
+    getAllRequestCourse: '/requestCourse/getAll',
+    addRequestCourse: '/requestCourse/create',
+    editRequestCourse: '/requestCourse/edit',
+    removeRequestCourse: '/requestCourse/remove',
   },
   eductional: {
     getAllEductional: '/eductional/getAll',

@@ -11,7 +11,7 @@ export interface IUser {
   isActive?: boolean
   birthDate?: string
   role?: IUserRole,
-  nikname?:string
+  nikname?: string
 }
 
 export interface IUserRole {
@@ -44,7 +44,7 @@ export interface IProducts {
 }
 
 export interface IProductOrder {
-  id?:string
+  id?: string
   product?: IProducts
   quantity?: number | any
 }
@@ -76,33 +76,31 @@ export interface IOrder {
   isHome?: boolean
   user?: IUser
   userAddress?: IUserAddress,
-  updatedAt?:string
+  updatedAt?: string
 }
 
 
-  export interface ICourse {
-    id?: string,
-    title?: string,
-    periodTime?: string,
-    dayHolding?: string,
-    timeHolding?: string,
-    description?: string,
-    courseConditions?: string,
-    price?: number,
-    image?:string
-    teacher?: ITeacher,
-    category?: ICategory,
-    eductional?: IEductional,
-    headLines?: string[],
-    isAvailable: boolean
-  }
+export interface ICourse {
+  id?: string,
+  title?: string,
+  periodTime?: string,
+  dayHolding?: string,
+  timeHolding?: string,
+  description?: string,
+  courseConditions?: string,
+  price?: number,
+  image?: string
+  teacher?: ITeacher,
+  category?: ICategory,
+  eductional?: IEductional,
+  headLines?: string[],
+  isAvailable: boolean
+}
 export interface ITeacher {
   id?: string,
   name: string,
   course?: ICourse[]
 }
-
-
 export interface IEductional {
   id?: string,
   name?: string,
@@ -114,4 +112,21 @@ export interface IHeadLines {
   id?: string,
   title?: string,
   course?: ICourse
+}
+
+export interface IFamiliarService {
+  id?: string,
+  phoneNumber?: string,
+  favoriotArea?: string
+  updatedAt?: string
+  createdAt?: string
+}
+
+export interface IRequestCourse {
+  id?: string,
+  phoneNumber?: string,
+  favoriotArea?: string,
+  course?: ICourse,
+  updatedAt?: string
+  createdAt?: string
 }

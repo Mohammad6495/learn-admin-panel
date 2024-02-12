@@ -8,12 +8,12 @@ import { Button, Modal } from 'react-bootstrap'
 import { BsCreditCard2Front } from 'react-icons/bs'
 import { HiOutlineLogout, HiUserGroup } from 'react-icons/hi'
 import { RxDashboard } from 'react-icons/rx'
-import { MdProductionQuantityLimits } from 'react-icons/md'
+import { MdOutlineMiscellaneousServices, MdProductionQuantityLimits } from 'react-icons/md'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
-import { TbCategory } from "react-icons/tb";
+import { TbCategory, TbGitPullRequest } from "react-icons/tb";
 import { MdOutlineCastForEducation } from "react-icons/md";
 import { FaChalkboardTeacher, FaUniversity } from "react-icons/fa";
-
+import { GrServices } from "react-icons/gr";
 export function AsideMenuMain() {
   const intl = useIntl()
   const { logout } = useAuth()
@@ -55,6 +55,20 @@ export function AsideMenuMain() {
         <AsideMenuItem
           to='/eductional-list'
           title={'لیست اموزشگاه'}
+          hasBullet={true}
+        />
+      </AsideMenuItemWithSub>
+      <AsideMenuItemWithSub title='مدیریت آشنایی خدمات' componentsIcon={<MdOutlineMiscellaneousServices fontSize={20} className='me-2' />}>
+        <AsideMenuItem
+          to='/familiar-service-list'
+          title={'لیست آشنایی خدمات'}
+          hasBullet={true}
+        />
+      </AsideMenuItemWithSub>
+      <AsideMenuItemWithSub title='مدیریت درخواست ها' componentsIcon={<TbGitPullRequest fontSize={20} className='me-2' />}>
+        <AsideMenuItem
+          to='/request-course-list'
+          title={'لیست درخواسات ها'}
           hasBullet={true}
         />
       </AsideMenuItemWithSub>

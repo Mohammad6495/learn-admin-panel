@@ -10,6 +10,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { fileBaseUrl } from '../../services/SERVICE-CONSTANTS'
+import { toast } from 'react-toastify'
 
 const CourseAddPage = () => {
     const navigate = useNavigate()
@@ -78,7 +79,7 @@ const CourseAddPage = () => {
         setHeadeLine(updatedItems);
     };
     useEffect(() => {
-        if (CourseDetail && allTeacher?.length !== 0&& allEductional?.length !== 0&& allCategory?.length !== 0) {
+        if (CourseDetail && allTeacher?.length !== 0 && allEductional?.length !== 0 && allCategory?.length !== 0) {
             const findCat = allCategory?.find(a => a.id == CourseDetail?.category?.id);
             const findEdu = allEductional?.find(a => a.id == CourseDetail?.eductional?.id);
             const findTeach = allTeacher?.find(a => a.id == CourseDetail?.teacher?.id);
@@ -104,7 +105,7 @@ const CourseAddPage = () => {
                 setHeadeLine(CourseDetail?.headLines as string[])
             }
         }
-    }, [CourseDetail, allCategory, allEductional, allTeacher]) 
+    }, [CourseDetail, allCategory, allEductional, allTeacher])
     const {
         Input: titleInput,
         Value: TitleValue,
@@ -113,28 +114,13 @@ const CourseAddPage = () => {
         initialvalue: CourseDetail?.title || '',
         className: ' col-md-6  mt-2   pe-md-2 pe-0'
     })
-    const {
-        Input: codeInput,
-        Value: codeValue,
-        validate: codeValidate,
-    } = CourseInputs.useCodeInput({
-        initialvalue: '',
-        className: ' col-md-6  mt-2   pe-md-2 pe-0'
-    })
+
     const {
         Input: priceInput,
         Value: priceValue,
         validate: priceValidate,
     } = CourseInputs.usePriceInput({
         initialvalue: CourseDetail?.price || '',
-        className: ' col-md-6  mt-2   pe-md-2 pe-0'
-    })
-    const {
-        Input: quantityInput,
-        Value: quantityValue,
-        validate: quantityValidate,
-    } = CourseInputs.useQuantityInput({
-        initialvalue: '',
         className: ' col-md-6  mt-2   pe-md-2 pe-0'
     })
     const {
@@ -253,33 +239,50 @@ const CourseAddPage = () => {
     }, [])
 
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault()
-        apiCaller({
-            api: id ? ServiceAgent.course.request_editProduct : ServiceAgent.course.request_createProduct,
-            apiArguments: {
-                id: CourseDetail?.id, 
-                category: selectedCategoryList?.value,
-                description: descriptionValue,
-                image: CourseImageInputRef?.current?.files?.[0],
-                isAvailable: isAvaible,
-                price: Number(priceValue),
-                title: TitleValue,
-                courseConditions: courseConditionsValue,
-                dayHolding: dayHoldingValue,
-                eductional: selectedEductionalList?.value,
-                headLines: headeLine,
-                periodTime: priceValue,
-                teacher: selectedTeacherList.value,
-                timeHolding: timeHoldingValue
-            },
-            onSuccess: (resp) => {
-                if (resp?.status == 200 && resp?.data?.statusCode == 200) {
-                    navigate('/course-list')
-                }
-            },
-            onSuccessMessage: `${isEditMode ? 'ویرایش' : 'ثبت'} دوره با موفقیت انجام شد`
-        })
+        const v1 = await TitleValidate()
+        const v2 = await priceValidate()
+        const v3 = await periodTimeValidate()
+        if (!selectedCategoryList?.value) {
+            toast.error('لطفا دسته بندی دوره خود را وارد نمایید')
+            return false
+        }
+        if (!selectedTeacherList?.value) {
+            toast.error('لطفا استاد دوره خود را وارد نمایید')
+            return false
+        }
+        if (!selectedEductionalList?.value) {
+            toast.error('لطفا آموزشگاه دوره خود را وارد نمایید')
+            return false
+        }
+        if(v1 && v2 && v3) {
+            apiCaller({
+                api: id ? ServiceAgent.course.request_editProduct : ServiceAgent.course.request_createProduct,
+                apiArguments: {
+                    id: CourseDetail?.id,
+                    category: selectedCategoryList?.value,
+                    description: descriptionValue,
+                    image: CourseImageInputRef?.current?.files?.[0],
+                    isAvailable: isAvaible,
+                    price: Number(priceValue),
+                    title: TitleValue,
+                    courseConditions: courseConditionsValue,
+                    dayHolding: dayHoldingValue,
+                    eductional: selectedEductionalList?.value,
+                    headLines: headeLine,
+                    periodTime: periodTimeValue,
+                    teacher: selectedTeacherList.value,
+                    timeHolding: timeHoldingValue
+                },
+                onSuccess: (resp) => {
+                    if (resp?.status == 200 && resp?.data?.statusCode == 200) {
+                        navigate('/course-list')
+                    }
+                },
+                onSuccessMessage: `${isEditMode ? 'ویرایش' : 'ثبت'} دوره با موفقیت انجام شد`
+            })
+        }
     }
 
     const handleNewItemWorkExprience = () => {
