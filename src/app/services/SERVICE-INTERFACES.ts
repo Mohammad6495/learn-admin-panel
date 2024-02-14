@@ -105,5 +105,6 @@ export interface ICourseService {
   category?: string,
   eductional?: string,
   headLines?: string[] |  any,
-  isAvailable: boolean
+  isAvailable: boolean,
+  startTime?:string
 }

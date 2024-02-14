@@ -11,7 +11,12 @@ import { Button } from 'react-bootstrap'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { fileBaseUrl } from '../../services/SERVICE-CONSTANTS'
 import { toast } from 'react-toastify'
-
+import usePersianDatepickerInput from '../../components/input/PersianDatePickerInput.component'
+import DateObject from 'react-date-object'
+import moment from 'jalali-moment'
+import persian from 'react-date-object/calendars/persian'
+import persian_fa from 'react-date-object/locales/persian_fa'
+import { toEnglishDigit } from '../../utils/persainDigitToEn'
 const CourseAddPage = () => {
     const navigate = useNavigate()
     const { id } = useParams()
@@ -176,7 +181,25 @@ const CourseAddPage = () => {
         renderer: CourseImageInputRenderer
     } = useImageInput({ initialValue: fileBaseUrl + CourseDetail?.image || '' });
 
+    const { renderPersianDatepickerInput: StartDateUpsertDateInput, selectedDate: StartDateUpsertDate, setSelectedDate: setStartDateUpsertDate } = usePersianDatepickerInput({
+        label: 'تاریخ شروع دوره',
+        inputId: 'upsertData',
+      });
 
+      useEffect(() => {
+        if (CourseDetail) {
+            const now = moment(CourseDetail?.startTime);
+            const jalaliNow = now.format('jYYYY/jMM/jDD');
+          if (CourseDetail?.startTime) {
+            const date = new DateObject({
+              date: jalaliNow,
+              calendar: persian,
+              locale: persian_fa,
+            })
+            setStartDateUpsertDate(date)
+          }
+        }
+      }, [CourseDetail])
     const getAllCategoryApi = () => {
         apiCaller({
             api: ServiceAgent.category.request_getAllcategorys,
@@ -273,7 +296,8 @@ const CourseAddPage = () => {
                     headLines: headeLine,
                     periodTime: periodTimeValue,
                     teacher: selectedTeacherList.value,
-                    timeHolding: timeHoldingValue
+                    timeHolding: timeHoldingValue,
+                    startTime: moment(toEnglishDigit(StartDateUpsertDate?.toString() as string ?? ''), 'jYYYY/jM/jD').locale('en').format('YYYY-MM-DDTHH:mm:ss.SSSSSSS') || ''
                 },
                 onSuccess: (resp) => {
                     if (resp?.status == 200 && resp?.data?.statusCode == 200) {
@@ -303,9 +327,11 @@ const CourseAddPage = () => {
                         {descriptionInput()}
                         {periodTimeInput()}
                         {dayHoldingInput()}
+
                         {timeHoldingInput()}
                         {courseConditionsInput()}
-                        {renderCategoryListSelectList({ className: 'col-md-12  mt-2   pe-md-2 pe-0' })}
+                        {StartDateUpsertDateInput({ className: 'col-md-6 col-12 mt-2   pe-md-2 pe-0' })}
+                        {renderCategoryListSelectList({ className: 'col-md-6  mt-2   pe-md-2 pe-0' })}
                         {renderEductionalListSelectList({ className: 'col-md-6  mt-2   pe-md-2 pe-0' })}
                         {renderTeacherListSelectList({ className: 'col-md-6  mt-2   pe-md-2 pe-0' })}
                         {isAvaibleInput({ className: 'col-md-6  mt-2   pe-md-2 pe-0' })}

@@ -94,7 +94,8 @@ export interface ICourse {
   category?: ICategory,
   eductional?: IEductional,
   headLines?: string[],
-  isAvailable: boolean
+  isAvailable: boolean,
+  startTime?:string
 }
 export interface ITeacher {
   id?: string,

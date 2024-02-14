@@ -18,7 +18,8 @@ export const request_createProduct = async ({
   headLines,
   periodTime,
   teacher,
-  timeHolding
+  timeHolding,
+  startTime
 }: ICourseService) => {
   const formData = new FormData()
   if (id) {
@@ -28,6 +29,7 @@ export const request_createProduct = async ({
   formData.append('category', category as any)
   formData.append('description', description as any)
   formData.append('isAvailable', isAvailable as any)
+  formData.append('startTime', startTime as any)
   formData.append('price', price as any)
   formData.append('title', title as any)
   formData.append('courseConditions', courseConditions as any)
@@ -57,7 +59,8 @@ export const request_editProduct = async ({
   headLines,
   periodTime,
   teacher,
-  timeHolding
+  timeHolding,
+  startTime
 }: ICourseService) => {
   const formData = new FormData()
   if (id) {
@@ -70,6 +73,7 @@ export const request_editProduct = async ({
   formData.append('description', description as any)
   formData.append('isAvailable', isAvailable as any)
   formData.append('price', price as any)
+  formData.append('startTime', startTime as any)
   formData.append('title', title as any)
   formData.append('courseConditions', courseConditions as any)
   formData.append('dayHolding', dayHolding as any)
