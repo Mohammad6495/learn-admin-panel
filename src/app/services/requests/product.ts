@@ -79,7 +79,11 @@ export const request_editProduct = async ({
   formData.append('dayHolding', dayHolding as any)
   formData.append('eductional', eductional as any)
   formData.append('periodTime', periodTime as any)
-  formData.append('teacher', teacher as any)
+  if (teacher?.length !== 0) {
+    for (let i = 0; i < teacher?.length; i++) {
+      formData.append('teacher', teacher[i] as any)
+    }
+  }
   formData.append('timeHolding', timeHolding as any)
   if (headLines?.length !== 0) {
     for (let i = 0; i < headLines.length; i++) {

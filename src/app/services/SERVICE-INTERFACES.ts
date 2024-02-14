@@ -101,7 +101,7 @@ export interface ICourseService {
   courseConditions?: string,
   price?: number,
   image?:string
-  teacher?: string,
+  teacher?: string[] | any,
   category?: string,
   eductional?: string,
   headLines?: string[] |  any,

@@ -90,7 +90,7 @@ export interface ICourse {
   courseConditions?: string,
   price?: number,
   image?: string
-  teacher?: ITeacher,
+  teacher?: ITeacher[],
   category?: ICategory,
   eductional?: IEductional,
   headLines?: string[],
@@ -100,6 +100,9 @@ export interface ICourse {
 export interface ITeacher {
   id?: string,
   name: string,
+  workExperience?: string,
+  description?: string,
+  image?: string
   course?: ICourse[]
 }
 export interface IEductional {

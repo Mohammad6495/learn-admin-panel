@@ -407,7 +407,7 @@ const RequestCourseListPage = () => {
                     </div>
                     <div className='col-4'>
                       <div className='d-flex align-items-center'>
-                        <span>نام مدرس : </span> <span>{RequestCourseValue?.course?.teacher?.name}</span>
+                        <span>نام مدرسین : </span> <span>{RequestCourseValue?.course?.teacher?.map(item => item?.name + ' , ')}</span>
                       </div>
                     </div>
                     <div className='col-4 mt-2'>

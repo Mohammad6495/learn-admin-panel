@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import {useGeneralInput} from './generalInputs/regularInput'
+import { useGeneralInput } from './generalInputs/regularInput'
 import Select from "react-select";
 import { colourStyles } from '../utils/reactSelectStyles';
 
-export const useTitleInput = ({className = '', initialvalue}) =>
+export const useTitleInput = ({ className = '', initialvalue }) =>
   useGeneralInput({
     initialvalue,
     className,
@@ -12,7 +12,7 @@ export const useTitleInput = ({className = '', initialvalue}) =>
     isRequired: true,
   })
 
-export const useCodeInput = ({className = '', initialvalue}) =>
+export const useCodeInput = ({ className = '', initialvalue }) =>
   useGeneralInput({
     initialvalue,
     className,
@@ -21,7 +21,7 @@ export const useCodeInput = ({className = '', initialvalue}) =>
     isRequired: true,
   })
 
-export const usePriceInput = ({className = '', initialvalue}) =>
+export const usePriceInput = ({ className = '', initialvalue }) =>
   useGeneralInput({
     initialvalue,
     className,
@@ -30,7 +30,7 @@ export const usePriceInput = ({className = '', initialvalue}) =>
     isRequired: true,
   })
 
-export const useQuantityInput = ({className = '', initialvalue}) =>
+export const useQuantityInput = ({ className = '', initialvalue }) =>
   useGeneralInput({
     initialvalue,
     className,
@@ -38,7 +38,7 @@ export const useQuantityInput = ({className = '', initialvalue}) =>
     label: 'تعداد :',
     isRequired: true,
   })
-  export const usePeriodTime = ({className = '', initialvalue}) =>
+export const usePeriodTime = ({ className = '', initialvalue }) =>
   useGeneralInput({
     initialvalue,
     className,
@@ -47,7 +47,7 @@ export const useQuantityInput = ({className = '', initialvalue}) =>
     isRequired: true,
   })
 
-  export const useDayHolding = ({className = '', initialvalue}) =>
+export const useDayHolding = ({ className = '', initialvalue }) =>
   useGeneralInput({
     initialvalue,
     className,
@@ -55,7 +55,7 @@ export const useQuantityInput = ({className = '', initialvalue}) =>
     label: 'روز های برگذاری :',
     isRequired: false,
   })
-  export const useTimeHolding = ({className = '', initialvalue}) =>
+export const useTimeHolding = ({ className = '', initialvalue }) =>
   useGeneralInput({
     initialvalue,
     className,
@@ -63,7 +63,7 @@ export const useQuantityInput = ({className = '', initialvalue}) =>
     label: 'ساعت برگذاری :',
     isRequired: false,
   })
-  export const useCourseConditions = ({className = '', initialvalue}) =>
+export const useCourseConditions = ({ className = '', initialvalue }) =>
   useGeneralInput({
     initialvalue,
     className,
@@ -73,7 +73,7 @@ export const useQuantityInput = ({className = '', initialvalue}) =>
   })
 
 
-export const useDescriptionInput = ({className = '', initialvalue}) =>
+export const useDescriptionInput = ({ className = '', initialvalue }) =>
   useGeneralInput({
     initialvalue,
     className,
@@ -85,7 +85,7 @@ export const useDescriptionInput = ({className = '', initialvalue}) =>
     isRequired: true,
   })
 
-export const useYesNoInput = ({title = '', id = '', initialvalue = false}) => {
+export const useYesNoInput = ({ title = '', id = '', initialvalue = false }) => {
   const [isTrue, setIsTrue] = useState(initialvalue)
   useEffect(() => {
     setIsTrue(initialvalue)
@@ -93,7 +93,7 @@ export const useYesNoInput = ({title = '', id = '', initialvalue = false}) => {
   const toggleIsTrue = () => {
     setIsTrue(!isTrue)
   }
-  const renderYesNoInput = ({className = ''}) => {
+  const renderYesNoInput = ({ className = '' }) => {
     return (
       <div className={className + ' d-flex flex-column justify-content-start align-items-stretch'}>
         {/* <div className='h5'>{title}</div> */}
@@ -123,7 +123,7 @@ export const useYesNoInput = ({title = '', id = '', initialvalue = false}) => {
     )
   }
 
-  return {isTrue, renderYesNoInput, toggleIsTrue, setIsTrue}
+  return { isTrue, renderYesNoInput, toggleIsTrue, setIsTrue }
 }
 
 
@@ -257,10 +257,7 @@ export const useEductionalList = ({ initialvalue = [] }) => {
 
 export const useTeacherList = ({ initialvalue = [] }) => {
   const [selectedTeacherList, setSelectedTeacherList] =
-    useState({
-      label: initialvalue[0]?.name,
-      value: initialvalue[0]?.id
-    });
+    useState(initialvalue);
   const [
     selectedTeacherListError,
     set_selectedTeacherListError,
@@ -280,16 +277,16 @@ export const useTeacherList = ({ initialvalue = [] }) => {
     return (
       <div className={className}>
         <label style={{ fontSize: "15px" }} className="m-0 p-0 mb-2 h5">
-          مدرس :
+          مدرسین :
         </label>
         <Select
+                  isMulti
+
           noOptionsMessage={() => "گزینه دیگری وجود ندارد"}
-          options={initialvalue.map(item => {
-            return {
-              value: item?.id,
-              label: item?.name
-            }
-          })}
+          options={initialvalue.map((item) => ({
+            value: item?.id?.toString() ?? "",
+            label: item.name,
+          }))}
           value={selectedTeacherList}
           dir="rtl"
           isSearchable

@@ -18,6 +18,7 @@ import * as orderInputs from '../../components/orderInput'
 import { CgBlock, CgRemove, CgUnblock } from 'react-icons/cg'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import { BsPlusSquare } from 'react-icons/bs'
+import useImageInput from '../../components/input/imageInput'
 
 const TeacherListPage = () => {
   const navigate = useNavigate()
@@ -35,7 +36,9 @@ const TeacherListPage = () => {
 
   const {
     useChangeStatusList,
-    useTeacherName
+    useTeacherName,
+    useWorkExperience,
+    useDescription
   } = orderInputs;
 
 
@@ -51,7 +54,27 @@ const TeacherListPage = () => {
     className: 'col-12',
     initialvalue: requestId ? TeacherListCartable.find(a => a.id == requestId)?.name : ''
   })
-
+  const {
+    Input: WorkExperienceInput,
+    Value: WorkExperienceInputValue,
+    validate: WorkExperienceInputValidation
+  } = useWorkExperience({
+    className: 'col-12',
+    initialvalue: requestId ? TeacherListCartable.find(a => a.id == requestId)?.workExperience : ''
+  })
+  const {
+    Input: DescriptionInput,
+    Value: DescriptionInputValue,
+    validate: DescriptionInputValidation
+  } = useDescription({
+    className: 'col-12',
+    initialvalue: requestId ? TeacherListCartable.find(a => a.id == requestId)?.description : ''
+  })
+  const {
+    imageRef: teacherImageInputRef,
+    renderer: teacherImageInputRenderer,
+    resetImage: teacherImageReset
+  } = useImageInput({ initialValue: requestId ? fileBaseUrl + TeacherListCartable.find(a => a.id == requestId)?.image : '' });
   const getAllListCatableData = () => {
     apiCaller({
       api: ServiceAgent.teacher.request_getAllteachers,
@@ -158,13 +181,18 @@ const TeacherListPage = () => {
   }
   const AddTeacherHandle = async () => {
     const v1 = await TeacherNameInputValidation();
-    if(v1) {
+    const formData = new FormData();
+    if (requestId) {
+      formData.append('id', requestId as any)
+    }
+    formData.append('name', TeacherNameInputValue as any)
+    formData.append('image', teacherImageInputRef?.current?.files?.[0])
+    formData.append('description', DescriptionInputValue as any)
+    formData.append('workExperience', WorkExperienceInputValue as any)
+    if (v1) {
       apiCaller({
         api: requestId ? ServiceAgent.teacher.request_editteacher : ServiceAgent.teacher.request_createteacher,
-        apiArguments: {
-          id: requestId || '',
-          name: TeacherNameInputValue
-        },
+        apiArguments:formData,
         onSuccess: (resp) => {
           if (resp?.status == 200 && resp?.data?.statusCode == 200) {
             setRequestId(undefined)
@@ -179,11 +207,12 @@ const TeacherListPage = () => {
   }
 
   useEffect(() => {
-   if(!ShowAddTeacher) {
-    if(requestId) {
-      setRequestId(undefined)
+    if (!ShowAddTeacher) {
+      if (requestId) {
+        setRequestId(undefined)
+        teacherImageReset()
+      }
     }
-   }
   }, [ShowAddTeacher])
   return (
     <>
@@ -330,15 +359,23 @@ const TeacherListPage = () => {
           <Modal.Header closeButton>
             {
               requestId ?
-                <h3>ویرایش استاد</h3>
+                <h3>ویرایش اساتید</h3>
                 :
-                <h3>استاد جدید</h3>
+                <h3>اساتید جدید</h3>
 
             }
           </Modal.Header>
           <Modal.Body>
             <div className='form-edit-Cartable'>
               {TeacherNameInput()}
+              {WorkExperienceInput()}
+              {DescriptionInput()}
+              {teacherImageInputRenderer({
+                id: 'teacherImage',
+                label: 'عکس مدرس',
+                className: 'col-md-12 mt-2 pe-md-2 pe-0',
+                required: false,
+              })}
               <div className='d-flex w-100 justify-content-end'>
                 <button onClick={AddTeacherHandle} className='btn btn-primary mt-2 me-3'>
                   {requestId ? 'ویرایش' : 'ثبت'}
@@ -363,11 +400,11 @@ const TeacherListPage = () => {
           dialogClassName='p-3'
         >
           <Modal.Header closeButton>
-            <h3>حذف مدرس</h3>
+            <h3>حذف مدرسین</h3>
           </Modal.Header>
           <Modal.Body>
             <div className='form-edit-Cartable'>
-              <p>آیا میخواهید این مدرس را حذف نمایید؟</p>
+              <p>آیا میخواهید این مدرسین را حذف نمایید؟</p>
               <div className='d-flex w-100 justify-content-end'>
                 <button onClick={removeTeacherHandle} className='btn btn-primary mt-2 me-3'>
                   بلی

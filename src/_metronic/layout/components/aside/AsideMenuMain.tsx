@@ -68,7 +68,7 @@ export function AsideMenuMain() {
       <AsideMenuItemWithSub title='مدیریت درخواست ها' componentsIcon={<TbGitPullRequest fontSize={20} className='me-2' />}>
         <AsideMenuItem
           to='/request-course-list'
-          title={'لیست درخواسات ها'}
+          title={'لیست درخواست ها'}
           hasBullet={true}
         />
       </AsideMenuItemWithSub>

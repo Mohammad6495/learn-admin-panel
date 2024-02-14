@@ -87,7 +87,7 @@ const CourseAddPage = () => {
         if (CourseDetail && allTeacher?.length !== 0 && allEductional?.length !== 0 && allCategory?.length !== 0) {
             const findCat = allCategory?.find(a => a.id == CourseDetail?.category?.id);
             const findEdu = allEductional?.find(a => a.id == CourseDetail?.eductional?.id);
-            const findTeach = allTeacher?.find(a => a.id == CourseDetail?.teacher?.id);
+            const findTeach = allTeacher?.filter(a => a.id == CourseDetail?.teacher);
             if (findCat) {
                 setSelectedCategoryList({
                     label: findCat?.title,
@@ -101,10 +101,17 @@ const CourseAddPage = () => {
                 })
             }
             if (findTeach) {
-                setSelectedTeacherList({
-                    label: findTeach?.name,
-                    value: findTeach?.id
-                })
+                const listUsageType = CourseDetail?.teacher
+                const filteredUsageTypeList = allTeacher.filter((item: any) => {
+                  return listUsageType?.some(type => item.id.includes(type.id as any));
+                });
+                 const filterData = filteredUsageTypeList.map(item => {
+                    return {
+                        label: item.name,
+                        value: item.id
+                    }
+                 })
+                setSelectedTeacherList(filterData as any)
             }
             if (CourseDetail?.headLines?.length !== 0) {
                 setHeadeLine(CourseDetail?.headLines as string[])
@@ -184,22 +191,22 @@ const CourseAddPage = () => {
     const { renderPersianDatepickerInput: StartDateUpsertDateInput, selectedDate: StartDateUpsertDate, setSelectedDate: setStartDateUpsertDate } = usePersianDatepickerInput({
         label: 'تاریخ شروع دوره',
         inputId: 'upsertData',
-      });
+    });
 
-      useEffect(() => {
+    useEffect(() => {
         if (CourseDetail) {
             const now = moment(CourseDetail?.startTime);
             const jalaliNow = now.format('jYYYY/jMM/jDD');
-          if (CourseDetail?.startTime) {
-            const date = new DateObject({
-              date: jalaliNow,
-              calendar: persian,
-              locale: persian_fa,
-            })
-            setStartDateUpsertDate(date)
-          }
+            if (CourseDetail?.startTime) {
+                const date = new DateObject({
+                    date: jalaliNow,
+                    calendar: persian,
+                    locale: persian_fa,
+                })
+                setStartDateUpsertDate(date)
+            }
         }
-      }, [CourseDetail])
+    }, [CourseDetail])
     const getAllCategoryApi = () => {
         apiCaller({
             api: ServiceAgent.category.request_getAllcategorys,
@@ -271,15 +278,15 @@ const CourseAddPage = () => {
             toast.error('لطفا دسته بندی دوره خود را وارد نمایید')
             return false
         }
-        if (!selectedTeacherList?.value) {
-            toast.error('لطفا استاد دوره خود را وارد نمایید')
+        if (!selectedTeacherList?.length != 0 as any) {
+            toast.error('لطفا اساتید دوره خود را وارد نمایید')
             return false
         }
         if (!selectedEductionalList?.value) {
             toast.error('لطفا آموزشگاه دوره خود را وارد نمایید')
             return false
         }
-        if(v1 && v2 && v3) {
+        if (v1 && v2 && v3) {
             apiCaller({
                 api: id ? ServiceAgent.course.request_editProduct : ServiceAgent.course.request_createProduct,
                 apiArguments: {
@@ -295,7 +302,7 @@ const CourseAddPage = () => {
                     eductional: selectedEductionalList?.value,
                     headLines: headeLine,
                     periodTime: periodTimeValue,
-                    teacher: selectedTeacherList.value,
+                    teacher: selectedTeacherList.map(item => item.value as any),
                     timeHolding: timeHoldingValue,
                     startTime: moment(toEnglishDigit(StartDateUpsertDate?.toString() as string ?? ''), 'jYYYY/jM/jD').locale('en').format('YYYY-MM-DDTHH:mm:ss.SSSSSSS') || ''
                 },

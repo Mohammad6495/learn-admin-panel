@@ -236,7 +236,7 @@ const CourseListPage = () => {
                         </div>
                       </td>
                       <td style={{ verticalAlign: 'middle' }} className=' '>
-                        {item.teacher?.name}
+                        {item.teacher?.map(item => item.name + ' , ')}
                       </td>
                       <td style={{ verticalAlign: 'middle' }} className=' '>
                         {item?.eductional?.name}

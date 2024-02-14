@@ -3,7 +3,7 @@ import { ITeacher, IUser } from '../../../interfaces'
 
 const columns: ReadonlyArray<Column<ITeacher>> = [
   {
-    Header: 'نام استاد',
+    Header: 'نام اساتید',
     accessor: 'name',
   },
   {

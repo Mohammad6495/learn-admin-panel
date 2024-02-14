@@ -9,7 +9,7 @@ export const useTeacherName = ({ className = '', initialvalue }) =>
     initialvalue,
     className,
     tagType: 'input',
-    label: 'نام استاد :',
+    label: 'نام اساتید :',
     isRequired: true,
   })
   export const useEductionalName = ({ className = '', initialvalue }) =>
@@ -17,8 +17,25 @@ export const useTeacherName = ({ className = '', initialvalue }) =>
     initialvalue,
     className,
     tagType: 'input',
-    label: 'نام استاد :',
+    label: 'نام اساتید :',
     isRequired: true,
+  })
+  export const useWorkExperience = ({ className = '', initialvalue }) =>
+  useGeneralInput({
+    initialvalue,
+    className,
+    tagType: 'input',
+    label: 'سابقه کاری :',
+    isRequired: false,
+  })
+  export const useDescription = ({ className = '', initialvalue }) =>
+  useGeneralInput({
+    initialvalue,
+    className,
+    row: 4,
+    tagType: 'textarea',
+    label: 'توضیحات مدرس :',
+    isRequired: false,
   })
 
   export const useEductionalDescription = ({ className = '', initialvalue }) =>

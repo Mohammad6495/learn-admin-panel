@@ -1,8 +1,7 @@
 // export const baseUrl = 'https://pardisangroup.com/api'
 // export const fileBaseUrl = 'https://pardisangroup.com'
-export const baseUrl = 'http://91.206.177.124:5000'
-export const fileBaseUrl = 'http://91.206.177.124:5000/'
-// export const baseUrl = 'http://localhost:5000'
+export const baseUrl = 'http://api.ga-app.ir'
+export const fileBaseUrl = 'http://api.ga-app.ir/'
 export const chathubUrl = 'https://api.pardisan-mc.com/chathub'
 export const tokenKey = 'admin-token-learn'
 

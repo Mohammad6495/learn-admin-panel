@@ -8,7 +8,7 @@ const columns: ReadonlyArray<Column<ICourse>> = [
   },
 
   {
-    Header: 'نام استاد',
+    Header: 'نام اساتید',
     accessor: 'teacher',
   },
   

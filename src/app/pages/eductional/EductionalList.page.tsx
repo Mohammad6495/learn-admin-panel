@@ -377,11 +377,11 @@ const EductionalListPage = () => {
           dialogClassName='p-3'
         >
           <Modal.Header closeButton>
-            <h3>حذف مدرس</h3>
+            <h3>حذف مدرسین</h3>
           </Modal.Header>
           <Modal.Body>
             <div className='form-edit-Cartable'>
-              <p>آیا میخواهید این مدرس را حذف نمایید؟</p>
+              <p>آیا میخواهید این مدرسین را حذف نمایید؟</p>
               <div className='d-flex w-100 justify-content-end'>
                 <button onClick={removeEductionalHandle} className='btn btn-primary mt-2 me-3'>
                   بلی
