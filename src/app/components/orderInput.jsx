@@ -17,7 +17,7 @@ export const useTeacherName = ({ className = '', initialvalue }) =>
     initialvalue,
     className,
     tagType: 'input',
-    label: 'نام اساتید :',
+    label: 'نام آموزشگاه :',
     isRequired: true,
   })
   export const useWorkExperience = ({ className = '', initialvalue }) =>
