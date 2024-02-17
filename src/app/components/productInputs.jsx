@@ -26,7 +26,7 @@ export const usePriceInput = ({ className = '', initialvalue }) =>
     initialvalue,
     className,
     tagType: 'input',
-    label: 'قیمت :',
+    label: 'قیمت (تومان) :',
     isRequired: true,
   })
 
